@@ -1,6 +1,6 @@
 
-tensorflow==1.9.0
+tensorflow-gpu
 keras_applications
 scipy
-Pillow-SIMD
+Pillow
 h5py
