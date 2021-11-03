@@ -8,7 +8,7 @@
   "train_lr": 1e-5,
   "train_epoch": 40,
 
-  "workers": 2,
+  "workers": 4,
   "max_queue_size" : 32,
 
   "train_im_size": [224, 224],
