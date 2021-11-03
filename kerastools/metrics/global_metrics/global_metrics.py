@@ -5,9 +5,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 from abc import abstractmethod, ABC
 
-
 _MAX_LIM = 250000000  # 1Go matrix maximum allowed (assuming float32).
-
 
 class GlobalMetric(ABC):
     """ Global metric abstract class (all implemented metrics must inherit from it).

@@ -47,15 +47,9 @@ def get_model_and_preprocess(extractor_name, embedding_size, high_order_dims, tr
 def get_args():
     parser = argparse.ArgumentParser(description="Script to train DML models with HORDE regularizer (ICCV 2019) "
                                                  "on the 4 datasets used in the original paper.")
-
-    parser.add_argument('--dataset',
-                        dest='dataset',
-                        required=True,
-                        help='Dataset name. Should be in {CUB|CARS|SOP|INSHOP|MNIST}', type=str, default=None)
-
     parser.add_argument('--feature',
                         dest='feature_extractor',
-                        help='Feature extractor name. Should be in {GoogleNet|BNInception}.', type=str, default="GoogleNet")
+                        help='Feature extractor name. Should be in {GoogleNet|BNInception|ResNet}.', type=str, default="ResNet")
 
     parser.add_argument('--loss',
                         dest='loss',
@@ -77,22 +71,22 @@ def get_args():
     parser.add_argument('--embedding',
                         nargs='+',
                         type=int,
-                        default=[512],
+                        default=[512, 512, 512, 512, 512],
                         dest='embeddings')
 
     parser.add_argument('--ho-dim',
                         nargs='+',
                         type=int,
-                        default=0,
+                        default=[8192, 8192, 8192, 8192],
                         dest='high_order_dims')
 
     parser.add_argument('--trainable',
-                        default=False,
+                        default=True,
                         action='store_true',
                         dest='trainable')
 
     parser.add_argument('--cascaded',
-                        default=False,
+                        default=True,
                         action='store_true',
                         dest='cascaded')
 
@@ -102,9 +96,14 @@ def get_args():
                         dest='use_abe')
 
     parser.add_argument('--use_horde',
-                        default=False,
+                        default=True,
                         action='store_true',
                         dest='use_horde')
+
+    parser.add_argument('--dataset',
+                        dest='dataset',
+                        required=True,
+                        help='Dataset name. Should be in {CUB|CARS|SOP|INSHOP|MNIST}', type=str, default='CUB')
 
     return parser.parse_args()
 
@@ -128,6 +127,7 @@ if __name__ == "__main__":
     test_indexes_query = dataset.get_queries_idx(db_set='test')
     test_indexes_collection = dataset.get_collection_idx(db_set='test')  # Test metrics are computed only for them
     rank_list = dataset.get_usual_retrieval_rank()  # Usual retrieval ranks
+
 
     # Prepare metric on test set:
     test_global_recall_at_K = KerasRecallAtK(ind_queries=test_indexes_query,

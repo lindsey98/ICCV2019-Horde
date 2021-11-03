@@ -1,6 +1,6 @@
 {
   "n_classes_per_batch": 8,
-  "images_per_class": 10,
+  "images_per_class": 4,
   "steps_per_epoch": 200,
 
   "test_batch_size": 100,
@@ -8,11 +8,11 @@
   "train_lr": 1e-5,
   "train_epoch": 40,
 
-  "workers": 8,
+  "workers": 2,
   "max_queue_size" : 32,
 
-  "train_im_size": [256, 256],
-  "test_im_size": [256, 256],
+  "train_im_size": [224, 224],
+  "test_im_size": [224, 224],
 
   "multi_res_min_ratio": 0.8,
   "multi_res_max_ratio": 1.8,
