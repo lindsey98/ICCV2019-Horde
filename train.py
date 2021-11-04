@@ -230,6 +230,7 @@ if __name__ == "__main__":
                                       path_to_save='logs',
                                       generic_filename=model_weights_filename[:-len('_weights')])
 
+
     model.compile(optimizer=Adam(lr=mdl_cfg['train_lr']),
                   loss=loss,
                   loss_weights=loss_weights)

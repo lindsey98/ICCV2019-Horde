@@ -5,9 +5,8 @@ import numpy as np
 import configparser
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import Callback
-
 from ..utils.generic_utils import expanded_join
-
+import os
 
 class GlobalMetricCallback(Callback):
     """ Keras Callback to compute global metrics (supposed to be 'on_epoch_end').
@@ -71,6 +70,7 @@ class GlobalMetricCallback(Callback):
         self.best_score = -np.inf
 
     def on_epoch_end(self, epoch, logs=None):
+
         if (epoch + 1) % self.frequency == 0:
             print('Computing predictions...')
             # Select the correct model for evaluation:
@@ -80,6 +80,11 @@ class GlobalMetricCallback(Callback):
                 mdl = self.cbk_model
             else:
                 mdl = self.model
+
+            os.makedirs(os.path.join(self.path_to_save, self.generic_filename), exist_ok=True)
+            mdl.save_weights(os.path.join(self.path_to_save, self.generic_filename,
+                                          "resnet_model_{epoch:04d}.h5".format(epoch=epoch)))
+
             predictions = mdl.predict_generator(generator=self.data_gen,
                                                 max_queue_size=self.max_queue_size,
                                                 workers=self.workers,
